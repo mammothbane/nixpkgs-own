@@ -13,12 +13,12 @@ with pkgs;
 
 buildGoModule rec {
   pname = "cordless";
-  version = "0.0.1-nosemver";
+  version = "0.0.2-nosemver";
 
   src = sources.cordless;
 
   goPackagePath = "github.com/Bios-Marcel/cordless";
-  modSha256 = "1yi9n6kj77lz8hp27g4kr1aax24dwjkn5sq2pylql4mdmh34gidr";
+  modSha256 = "1zfk7m3376gldi0apvzjvi07321d45hcvr1xmz5jrdrfq5hfhkf2";
   subpackages = ["."];
 
   meta = with lib; {
