@@ -11,7 +11,7 @@ in
 
 with pkgs;
 
-buildGoModule rec {
+buildGo113Module rec {
   pname = "cordless";
   version = "0.0.2-nosemver";
 
