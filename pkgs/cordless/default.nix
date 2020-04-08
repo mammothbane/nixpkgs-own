@@ -1,3 +1,4 @@
+{}:
 let
   sources = import nix/sources.nix;
   overlay = _: pkgs: {
