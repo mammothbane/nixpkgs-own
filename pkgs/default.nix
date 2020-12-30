@@ -1,5 +1,0 @@
-{ callPackage }:
-
-{
-  cordless = callPackage ./cordless {};
-}
