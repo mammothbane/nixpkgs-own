@@ -10,16 +10,16 @@ in {
 
     environmentFile = mkOption {
       description = "location of environment file holding FISHNET_KEY=<val> declaration";
-      type = string;
+      type = str;
     };
 
     user = mkOption {
-      type = string;
+      type = str;
       default = "ufishnet";
     };
 
     group = mkOption {
-      type = string;
+      type = str;
       default = "gfishnet";
     };
   };
