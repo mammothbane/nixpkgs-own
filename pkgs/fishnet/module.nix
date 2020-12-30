@@ -24,7 +24,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enabled {
+  config = lib.mkIf cfg.enable {
     systemd.services.fishnet = {
       description = "run stockfish for lichess";
 
