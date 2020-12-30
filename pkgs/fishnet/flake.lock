@@ -1,0 +1,127 @@
+{
+  "nodes": {
+    "fishnet": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1609196502,
+        "narHash": "sha256-K5nKDzigApcx9vNtwHFMKAfcDWE3LTq1Dm5jhsIXIrY=",
+        "owner": "niklasf",
+        "repo": "fishnet",
+        "rev": "6ad8d69da630f0cf7590adb45164185b6d82c93f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "niklasf",
+        "repo": "fishnet",
+        "type": "github"
+      }
+    },
+    "fishnet-assets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1609090763,
+        "narHash": "sha256-cj6c9VVS33IzpJjCy0ndozsU7fyOrHcdaYyQk66xi6g=",
+        "owner": "niklasf",
+        "repo": "fishnet-assets",
+        "rev": "851d23c86a9160c533870a47d4353db75fdd855e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "niklasf",
+        "repo": "fishnet-assets",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1605370193,
+        "narHash": "sha256-YyMTf3URDL/otKdKgtoMChu4vfVL3vCMkRqpGifhUn0=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5021eac20303a61fafe17224c087f5519baed54d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "naersk": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1606830243,
+        "narHash": "sha256-XuHaoQNTZ+aUvM6GjsGr8bax51Vvif+kuq4il6d4ZSU=",
+        "owner": "nmattia",
+        "repo": "naersk",
+        "rev": "a76924cbbb17c387e5ae4998a4721d88a3ac95c0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nmattia",
+        "repo": "naersk",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1607981906,
+        "narHash": "sha256-tFuNBkK0F5km1Lq5ulLgLVm3BvOvI7t4k4Y7xTIo3QE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "dd95aa337e23a8a48fe82f0f7b1cced8bc03e379",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs-mozilla": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1603906276,
+        "narHash": "sha256-RsNPnEKd7BcogwkqhaV5kI/HuNC4flH/OQCC/4W5y/8=",
+        "owner": "mozilla",
+        "repo": "nixpkgs-mozilla",
+        "rev": "8c007b60731c07dd7a052cce508de3bb1ae849b4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mozilla",
+        "repo": "nixpkgs-mozilla",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1609203150,
+        "narHash": "sha256-PIkk2Ga/YlP+9RnUvGpUhCOtTJTQazq9/E3mYZ7jMW0=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "71f9181fc766ed4ea1043035d4ed63d1bd0f0cbc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "fishnet": "fishnet",
+        "fishnet-assets": "fishnet-assets",
+        "flake-utils": "flake-utils",
+        "naersk": "naersk",
+        "nixpkgs": "nixpkgs_2",
+        "nixpkgs-mozilla": "nixpkgs-mozilla"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
