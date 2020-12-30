@@ -11,7 +11,7 @@
             default = null;
 
             example = literalExample ''
-              "''${pkgs.bash}/bin/bash"
+              "''${pkgs.bashInteractive}/bin/bash"
             '';
 
             type = with types; nullOr path;
