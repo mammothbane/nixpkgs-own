@@ -1,0 +1,60 @@
+{
+  "nodes": {
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1609246779,
+        "narHash": "sha256-eq6ZXE/VWo3EMC65jmIT6H/rrUc9UWOWVujkzav025k=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "08c7ad4a0844adc4a7f9f5bb3beae482e789afa4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1609289482,
+        "narHash": "sha256-wUdDuTKOToRRpXZO74irBVQkMIq8C3Qj+8Z2AtZbrj4=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3c08a64b7dc4bf94a4e83dd0eac3253138ccfaea",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "tty0tty": "tty0tty"
+      }
+    },
+    "tty0tty": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1523331331,
+        "narHash": "sha256-QVRuC4UC8CXFupRInOD/UEy9hS13vD71WpG6THXXMxc=",
+        "owner": "freemed",
+        "repo": "tty0tty",
+        "rev": "5f8d18dd4b555d34ce86936240c94d4c19b2e71a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "freemed",
+        "repo": "tty0tty",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
