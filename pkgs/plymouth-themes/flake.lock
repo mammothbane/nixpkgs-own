@@ -1,0 +1,60 @@
+{
+  "nodes": {
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1609246779,
+        "narHash": "sha256-eq6ZXE/VWo3EMC65jmIT6H/rrUc9UWOWVujkzav025k=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "08c7ad4a0844adc4a7f9f5bb3beae482e789afa4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1609376094,
+        "narHash": "sha256-Gx38I3A9TQiqGJqSY5aKffc8gQE4GBrkckKU7I1FMjM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "7da8c4439d9e34ea5c9ad2b140c7899b2ccf7d31",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "plymouth-themes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1599460260,
+        "narHash": "sha256-Fsb6bBGFMo1o9gWj1DFzueU7MzlMYD3hDumZdlozKnA=",
+        "owner": "adi1090x",
+        "repo": "plymouth-themes",
+        "rev": "c2a068e44f476d79fcc87372ad0436d11cf65b14",
+        "type": "github"
+      },
+      "original": {
+        "owner": "adi1090x",
+        "repo": "plymouth-themes",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "plymouth-themes": "plymouth-themes"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
