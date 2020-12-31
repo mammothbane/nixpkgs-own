@@ -56,7 +56,7 @@ let
 
         [script]
         ImageDir=$out/share/plymouth/themes/${name}
-        ScriptFile=$out/share/plymouth/themes/${name}.script
+        ScriptFile=$out/share/plymouth/themes/${name}/${name}.script
         EOF
       '';
     };
