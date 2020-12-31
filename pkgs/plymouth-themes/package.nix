@@ -1,12 +1,14 @@
 {
-  stdenv,
-  lib,
+  pkgs,
   plymouth-themes,
-  breakpointHook,
   ...
 }:
 
 let
+  lib = pkgs.lib;
+  stdenv = pkgs.stdenv;
+  breakpointHook = pkgs.breakpointHook;
+
   themes = builtins.readDir plymouth-themes;
 
   mkPackage = { name, path, ... }:

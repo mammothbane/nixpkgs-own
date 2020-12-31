@@ -46,10 +46,17 @@
         };
 
 
-      pkg = pkgs.callPackage ./package.nix { inherit plymouth-themes; };
+      pkg = import ./package.nix {
+        inherit plymouth-themes pkgs;
+      };
 
     in {
       packages = pkg;
+
+      defaultPackage = pkgs.symlinkJoin {
+        name = "all-themes";
+        paths = (builtins.attrValues pkg);
+      };
     })
   );
 }
