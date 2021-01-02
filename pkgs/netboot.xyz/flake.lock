@@ -1,0 +1,115 @@
+{
+  "nodes": {
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1609246779,
+        "narHash": "sha256-eq6ZXE/VWo3EMC65jmIT6H/rrUc9UWOWVujkzav025k=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "08c7ad4a0844adc4a7f9f5bb3beae482e789afa4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "ipxe": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1609448590,
+        "narHash": "sha256-KaJuNpMRnPwiH99TLGNqsqemQ9xyO6Sp+7RlwIINbt4=",
+        "owner": "ipxe",
+        "repo": "ipxe",
+        "rev": "988d2c13cdf0f0b4140685af35ced70ac5b3283c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipxe",
+        "ref": "master",
+        "repo": "ipxe",
+        "type": "github"
+      }
+    },
+    "netboot_xyz": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1609184713,
+        "narHash": "sha256-DAhpdDSmx7tbRYVQ+UbwvwRmTZdEF4CA98BYObfyYpU=",
+        "owner": "netbootxyz",
+        "repo": "netboot.xyz",
+        "rev": "3d6a9c10d4130cdea25fc28da7be4b875af1f336",
+        "type": "github"
+      },
+      "original": {
+        "owner": "netbootxyz",
+        "ref": "2.0.29",
+        "repo": "netboot.xyz",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1609592643,
+        "narHash": "sha256-VpXwecbc/DaB01u8k3MXJfKnUBvdZyqtgQ+VtgulE24=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "cdd8031fca5169c2ff952e57e2c81ccd5e9fde03",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "pciids": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1609050537,
+        "narHash": "sha256-S56mzq2WljPWbQjH42EBK43rje3zlMnZjv1qUcER2h4=",
+        "owner": "netbootxyz",
+        "repo": "pciids",
+        "rev": "be5c0094684fedf345e3a14edcefb5e30232be8f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "netbootxyz",
+        "ref": "master",
+        "repo": "pciids",
+        "type": "github"
+      }
+    },
+    "pipxe": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1604371936,
+        "narHash": "sha256-hrlwhptkGmOYwrD4wqwFLvgRbRtrAB/d/1MKN/D4x04=",
+        "owner": "netbootxyz",
+        "repo": "pipxe",
+        "rev": "b4543be3f0716c4edbbd4c43919728abc61cc98d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "netbootxyz",
+        "ref": "master",
+        "repo": "pipxe",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "ipxe": "ipxe",
+        "netboot_xyz": "netboot_xyz",
+        "nixpkgs": "nixpkgs",
+        "pciids": "pciids",
+        "pipxe": "pipxe"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
