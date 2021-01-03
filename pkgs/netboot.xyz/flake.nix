@@ -51,12 +51,6 @@
       ipxe = import ./ipxe {
         inherit pkgs;
         inherit (inputs) ipxe;
-
-        opts = {
-          site = "nathanperry.dev";
-          domain = "boot.nathanperry.dev";
-          version = "0.1.0";
-        };
       };
 
       netboot = import ./package.nix {

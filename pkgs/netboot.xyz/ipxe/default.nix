@@ -1,7 +1,7 @@
 {
   pkgs,
   ipxe,
-  opts,
+  opts ? null,
   ...
 }:
 
@@ -41,8 +41,8 @@ let
       makeFlags = [
         "ECHO_E_BIN_ECHO=echo"
         "ECHO_E_BIN_ECHO_E=echo"
-        "EMBED=${import ./embed.nix opts}"
-      ];
+      ] ++ pkgs.lib.optional (opts != null && opts != {}) "EMBED=${import ./embed.nix opts}";
+
       buildFlags = targets;
       hardeningDisable = [ "pic" "stackprotector" ];
 
