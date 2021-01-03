@@ -82,6 +82,34 @@ let
 
     thispkgs = pkgs.reimport {
       crossSystem = "aarch64-linux";
+
+      overlays = [
+        (self: super: with super; {
+          cdrkit = cdrkit.overrideAttrs (old: {
+            nativeBuildInputs = (old.nativeBuildInputs or []) ++ ([
+              cmake
+              perl
+            ]);
+
+            buildInputs = with builtins;
+              let
+                pkgName = pkg:
+                  let
+                    m = match ''^([a-z]+)-.*$'' pkg.name;
+                  in
+                    if m != null && length m > 0 then head m
+                    else "";
+
+                oldInputs = old.buildInputs or [];
+
+              in (builtins.filter (x:
+                let
+                  name = pkgName x;
+                in (name != "cmake" && name != "perl")
+              ) oldInputs);
+          });
+        })
+      ];
     };
   };
 
@@ -117,8 +145,8 @@ in pkgs.symlinkJoin {
   name = "ipxe-${ipxe.rev}";
 
   paths = [
-    # aarch64
-    x86-bios
-    x86-efi
+    aarch64
+    # x86-bios
+    # x86-efi
   ];
 }
