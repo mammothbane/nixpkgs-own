@@ -16,29 +16,21 @@ let
     targets,
     thispkgs,
     extraOptions ? [],
-  }: thispkgs.callPackage ({
-    stdenv,
-    cdrkit,
-    mtools,
-    dosfstools,
-    perl,
-    openssl,
-    gnu-efi,
-    lzma,
-  }: stdenv.mkDerivation {
+  }: with thispkgs; stdenv.mkDerivation {
     pname = "ipxe-${platform}";
     version = ipxe.rev;
 
     src = ipxe;
 
-    depsHostHost = [
+    nativeBuildInputs = [
       cdrkit
       mtools
       dosfstools
       perl
+      openssl
     ];
 
-    depsHostTarget = [
+    buildInputs = [
       openssl
       gnu-efi
       lzma
@@ -51,7 +43,6 @@ let
       "ECHO_E_BIN_ECHO=echo"
       "ECHO_E_BIN_ECHO_E=echo"
       "EMBED=${import ./embed.nix opts}"
-      "TRUST=${cacert}"
     ];
     buildFlags = targets;
     hardeningDisable = [ "pic" "stackprotector" ];
@@ -78,11 +69,17 @@ let
     '';
 
     preBuild = "cd src";
-  }) {};
+
+    installPhase = ''
+      mkdir -p $out/share/ipxe/${platform}
+    '' +
+    lib.concatStringsSep "\n" (builtins.map (target: "cp ${target} $out/share/ipxe/${platform}") targets);
+  };
 
   aarch64 = mkDrv {
     platform = "aarch64";
     targets = [ "bin-arm64-efi/snp.efi" ];
+
     thispkgs = pkgs.reimport {
       crossSystem = "aarch64-linux";
     };
@@ -120,7 +117,7 @@ in pkgs.symlinkJoin {
   name = "ipxe-${ipxe.rev}";
 
   paths = [
-    aarch64
+    # aarch64
     x86-bios
     x86-efi
   ];
