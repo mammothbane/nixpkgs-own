@@ -29,6 +29,8 @@ let
     version = "2.10.4";
   }));
 
+  aarchpkgs = pkgs.crossPkgs "aarch64-linux";
+
 in pkgs.stdenv.mkDerivation {
   pname = "netboot.xyz";
   version = netboot_xyz.rev;
@@ -41,6 +43,9 @@ in pkgs.stdenv.mkDerivation {
     mtools
     ansible
     git
+
+    aarchpkgs.binutils
+    aarchpkgs.stdenv.cc
   ];
 
   buildInputs = with pkgs; [

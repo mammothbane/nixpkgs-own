@@ -32,16 +32,30 @@
     flake-utils,
     netboot_xyz,
     pciids,
-    ipxe,
     pipxe,
     ...
-  }: (flake-utils.lib.eachDefaultSystem (system:
+  } @ inputs: (flake-utils.lib.eachDefaultSystem (system:
     let
-      pkgs = import nixpkgs { inherit system; };
+      crossPkgs = crossSystem: import nixpkgs {
+        inherit system crossSystem;
+      };
+
+      pkgs = import nixpkgs {
+        inherit system;
+
+        overlays = [
+          (self: super: { inherit crossPkgs; })
+        ];
+      };
+
+      ipxe = import ./ipxe.nix {
+        inherit pkgs;
+        inherit (inputs) ipxe;
+      };
 
     in {
       defaultPackage = import ./package.nix {
-        inherit pkgs netboot_xyz pciids ipxe pipxe;
+        inherit pkgs netboot_xyz pciids inputs.ipxe pipxe;
       };
     })
   );
