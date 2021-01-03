@@ -27,67 +27,72 @@ let
     gnu-efi,
     lzma,
     gcc,
-  }: stdenv.mkDerivation ({
-    pname = "ipxe-${platform}";
-    version = ipxe.rev;
+  }:
+  let
+    baseDrv = {
+      pname = "ipxe-${platform}";
+      version = ipxe.rev;
 
-    src = ipxe;
+      src = ipxe;
 
-    nativeBuildInputs = [
-      cdrkit
-      mtools
-      dosfstools
-      perl
-      openssl
-      pkgs.stdenv.cc
-    ];
+      nativeBuildInputs = [
+        cdrkit
+        mtools
+        dosfstools
+        perl
+        openssl
+      ];
 
-    buildInputs = [
-      openssl
-      gnu-efi
-      lzma
-    ];
+      buildInputs = [
+        gnu-efi
+        lzma
+      ];
 
-    doCheck = stdenv.hostPlatform == stdenv.buildPlatform;
+      doCheck = stdenv.hostPlatform == stdenv.buildPlatform;
 
-    NIX_CFLAGS_COMPILE = "-Wno-error";
-    makeFlags = [
-      "ECHO_E_BIN_ECHO=echo"
-      "ECHO_E_BIN_ECHO_E=echo"
-      "EMBED=${import ./embed.nix opts}"
-    ];
-    buildFlags = targets;
-    hardeningDisable = [ "pic" "stackprotector" ];
+      NIX_CFLAGS_COMPILE = "-Wno-error";
+      makeFlags = [
+        "ECHO_E_BIN_ECHO=echo"
+        "ECHO_E_BIN_ECHO_E=echo"
+        "EMBED=${import ./embed.nix opts}"
+      ];
+      buildFlags = targets;
+      hardeningDisable = [ "pic" "stackprotector" ];
 
-    inherit extraOptions;
+      inherit extraOptions;
 
-    configurePhase = ''
-      runHook preConfigure
+      configurePhase = ''
+        runHook preConfigure
 
-      mkdir -p src/config/local
-      ls src/config/local
+        mkdir -p src/config/local
+        ls src/config/local
 
-      cp ${./config.h} src/config/local/general.h
-      chmod u+w src/config/local/general.h
+        cp ${./config.h} src/config/local/general.h
+        chmod u+w src/config/local/general.h
 
-      for opt in $extraOptions; do
-        echo "#define $opt" >> src/config/local/general.h
-      done
+        for opt in $extraOptions; do
+          echo "#define $opt" >> src/config/local/general.h
+        done
 
-      substituteInPlace src/Makefile.housekeeping --replace '/bin/echo' echo
+        substituteInPlace src/Makefile.housekeeping --replace '/bin/echo' echo
 
-      runHook postConfigure
-    '';
+        runHook postConfigure
+      '';
 
-    preBuild = "cd src";
+      preBuild = "cd src";
 
-    installPhase = ''
-      mkdir -p $out/share/ipxe/${platform}
-    '' +
-    lib.concatStringsSep "\n" (builtins.map (target: "cp ${target} $out/share/ipxe/${platform}") targets);
-  } // lib.optionalAttrs (stdenv.buildPlatform != stdenv.targetPlatform) {
-    CROSS = "${stdenv.targetPlatform.config}-";
-  })) {};
+      installPhase = ''
+        mkdir -p $out/share/ipxe/${platform}
+      '' +
+      lib.concatStringsSep "\n" (builtins.map (target: "cp ${target} $out/share/ipxe/${platform}") targets);
+    };
+
+    crossAttrs = lib.optionalAttrs (stdenv.buildPlatform != stdenv.targetPlatform) {
+      CROSS = "${stdenv.targetPlatform.config}-";
+      nativeBuildInputs = baseDrv.nativeBuildInputs ++ [pkgs.stdenv.cc];
+    };
+
+  in stdenv.mkDerivation (baseDrv // crossAttrs)) {};
 
   aarch64 = mkDrv {
     platform = "aarch64";
