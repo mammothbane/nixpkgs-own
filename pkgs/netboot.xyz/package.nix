@@ -55,7 +55,6 @@ in pkgs.stdenv.mkDerivation {
     mkdir -p /build/source/work/var/www/html/ipxe
 
     cd /build/source
-    export NO_WERROR=1
     ansible-playbook -v -i inventory site.yml
   '';
 
