@@ -8,14 +8,9 @@
 }:
 
 let
-  cacert = builtins.fetchurl {
-    url = https://ca.ipxe.org/ca.crt;
-    sha256 = "15kwz3liwbdpi8s3v3axaswmp1b3wm3zqps50gmrsiyj4v34fx8d";
-  };
-
   confYaml = pkgs.writeText "conf.yaml" (builtins.toJSON (import ./conf.nix {
     dst = "/build/source/work";
-    inherit pciids ipxe pipxe cacert;
+    inherit pciids ipxe pipxe;
   }));
 
   siteYaml = pkgs.writeText "site.yaml" (builtins.toJSON [{
@@ -37,20 +32,9 @@ in pkgs.stdenv.mkDerivation {
 
   nativeBuildInputs = with pkgs; [
     breakpointHook
-    perl
-    cdrkit
-    dosfstools
-    mtools
     ansible
     git
-
-    aarchpkgs.binutils
-    aarchpkgs.stdenv.cc
-  ];
-
-  buildInputs = with pkgs; [
     openssl
-    lzma
   ];
 
   src = netboot_xyz;
@@ -68,38 +52,7 @@ in pkgs.stdenv.mkDerivation {
     export HOME=/build/ansible-home
     export ANSIBLE_LOCAL_TEMP=/build/ansible
 
-    mkdir -p /build/source/work
-
-    git config --global user.email nixbld@localhost
-    git config --global user.name "Nix Builder"
-
-    git init /build/source/work/ipxe.git
-    git init /build/source/work/pipxe.git
-
-    cd /build/source/work/ipxe.git
-    cp -R ${ipxe}/* ./
-    git add .
-    git commit -m "dummy commit"
-
-    chmod u+w -R src
-    git apply ${./ipxe-echo.patch}
-    git add .
-    git commit -m "dummy commit"
-    git tag v9.9.9
-
-    cd /build/source/work/pipxe.git
-    cp -R ${pipxe}/* ./
-    git add .
-    git commit -m "dummy commit"
-    git tag v9.9.9
-
-    mkdir -p /build/source/work/usr/src
-    cd /build/source/work/usr/src
-
-    git clone --origin origin file:///build/source/work/ipxe.git
-    git clone --origin origin file:///build/source/work/pipxe.git
-
-    mkdir -p /build/source/work/usr/src/ipxe/src/config/local
+    mkdir -p /build/source/work/var/www/html/ipxe
 
     cd /build/source
     export NO_WERROR=1

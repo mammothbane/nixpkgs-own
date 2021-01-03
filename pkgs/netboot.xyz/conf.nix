@@ -1,7 +1,6 @@
 {
   dst,
   pciids,
-  cacert,
   ...
 }:
 
@@ -21,15 +20,15 @@ rec {
 
   # win_base_url = "";
 
-  generate_checksums      = true;
-  generate_disks          = true;
+  generate_checksums      = false;
+  generate_disks          = false;
   generate_disks_arm      = true;
   generate_disks_efi      = true;
   generate_disks_legacy   = true;
   generate_disks_rpi      = true;
   generate_menus          = true;
   generate_signatures     = false;
-  generate_version_file   = true;
+  generate_version_file   = false;
 
   # static
   cert_dir = "${dst}/etc/certs";
@@ -40,7 +39,6 @@ rec {
 
   ipxe_branch = "master";
   ipxe_ca_filename = "ca-ipxe-org.crt";
-  ipxe_ca_url = "file:///${cacert}";
   ipxe_repo = "${dst}/ipxe.git";
   ipxe_source_dir = "${dst}/usr/src/ipxe";
   live_endpoint = "https://github.com/netbootxyz";
