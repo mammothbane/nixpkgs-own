@@ -13,24 +13,27 @@ let
     extraOptions ? [],
   }:
   let
-    baseDrv = {
+    baseAttrs = {
       pname = "ipxe-${platform}";
       version = ipxe.rev;
 
       src = ipxe;
 
-      depsBuildBuild = with pkgs; [
+      strictDeps = true;
+
+      nativeBuildInputs = (with pkgs; [
         cdrkit
         mtools
         dosfstools
         perl
         openssl
-      ];
-
-      depsHostTarget = with thispkgs; [
+      ]) ++ (with thispkgs; [
         gnu-efi
+      ]);
+
+      buildInputs = (with thispkgs; [
         lzma
-      ];
+      ]);
 
       doCheck = thispkgs.stdenv.hostPlatform == thispkgs.stdenv.buildPlatform;
 
@@ -73,10 +76,10 @@ let
 
     crossAttrs = pkgs.lib.optionalAttrs (thispkgs.stdenv.buildPlatform != thispkgs.stdenv.targetPlatform) {
       CROSS = "${thispkgs.stdenv.targetPlatform.config}-";
-      depsBuildBuild = (baseDrv.depsBuildBuild or []) ++ [pkgs.stdenv.cc];
+      nativeBuildInputs = (baseAttrs.nativeBuildInputs or []) ++ [pkgs.stdenv.cc];
     };
 
-  in thispkgs.stdenv.mkDerivation (baseDrv // crossAttrs);
+  in thispkgs.stdenv.mkDerivation (baseAttrs // crossAttrs);
 
   aarch64 = mkDrv {
     platform = "aarch64";
@@ -88,6 +91,8 @@ let
       overlays = [
         (self: super: with super; {
           cdrkit = cdrkit.overrideAttrs (old: {
+            strictDeps = true;
+
             depsBuildHost = (old.depsBuildHost or []) ++ ([
               cmake
               perl
