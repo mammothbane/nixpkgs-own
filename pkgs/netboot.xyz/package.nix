@@ -33,13 +33,19 @@ in pkgs.stdenv.mkDerivation {
   pname = "netboot.xyz";
   version = netboot_xyz.rev;
 
-  nativeBuildInputs = [
-    pkgs.breakpointHook
+  nativeBuildInputs = with pkgs; [
+    breakpointHook
+    perl
+    cdrkit
+    dosfstools
+    mtools
+    ansible
+    git
   ];
 
   buildInputs = with pkgs; [
-    perl
     openssl
+    lzma
   ];
 
   src = netboot_xyz;
@@ -56,7 +62,6 @@ in pkgs.stdenv.mkDerivation {
 
     export HOME=/build/ansible-home
     export ANSIBLE_LOCAL_TEMP=/build/ansible
-    export PATH=${ansible}/bin:${pkgs.git}/bin:$PATH
 
     mkdir -p /build/source/work
 
@@ -70,12 +75,18 @@ in pkgs.stdenv.mkDerivation {
     cp -R ${ipxe}/* ./
     git add .
     git commit -m "dummy commit"
+
+    chmod u+w -R src
     git apply ${./ipxe-echo.patch}
+    git add .
+    git commit -m "dummy commit"
+    git tag v9.9.9
 
     cd /build/source/work/pipxe.git
     cp -R ${pipxe}/* ./
     git add .
     git commit -m "dummy commit"
+    git tag v9.9.9
 
     mkdir -p /build/source/work/usr/src
     cd /build/source/work/usr/src
@@ -86,10 +97,14 @@ in pkgs.stdenv.mkDerivation {
     mkdir -p /build/source/work/usr/src/ipxe/src/config/local
 
     cd /build/source
+    export NO_WERROR=1
     ansible-playbook -v -i inventory site.yml
   '';
 
   installPhase = ''
-    mv /build/source/work/var/www/html $out
+    mkdir -p                                    $out/share/netbootxyz
+    chmod -R  u+w                               $out/share
+    cp    -R  /build/source/work/var/www/html/* $out/share/netbootxyz
+    chmod -R  a-wx+Xr                           $out
   '';
 }
