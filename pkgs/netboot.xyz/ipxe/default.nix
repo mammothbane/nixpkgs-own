@@ -11,17 +11,6 @@ let
     targets,
     thispkgs,
     extraOptions ? [],
-  }: thispkgs.callPackage ({
-    lib,
-    stdenv,
-    cdrkit,
-    mtools,
-    dosfstools,
-    perl,
-    openssl,
-    gnu-efi,
-    lzma,
-    gcc,
   }:
   let
     baseDrv = {
@@ -30,7 +19,7 @@ let
 
       src = ipxe;
 
-      nativeBuildInputs = [
+      depsBuildBuild = with pkgs; [
         cdrkit
         mtools
         dosfstools
@@ -38,12 +27,12 @@ let
         openssl
       ];
 
-      buildInputs = [
+      depsHostTarget = with thispkgs; [
         gnu-efi
         lzma
       ];
 
-      doCheck = stdenv.hostPlatform == stdenv.buildPlatform;
+      doCheck = thispkgs.stdenv.hostPlatform == thispkgs.stdenv.buildPlatform;
 
       NIX_CFLAGS_COMPILE = "-Wno-error";
       makeFlags = [
@@ -79,15 +68,15 @@ let
       installPhase = ''
         mkdir -p $out/share/ipxe/${platform}
       '' +
-      lib.concatStringsSep "\n" (builtins.map (target: "cp ${target} $out/share/ipxe/${platform}") targets);
+      pkgs.lib.concatStringsSep "\n" (builtins.map (target: "cp ${target} $out/share/ipxe/${platform}") targets);
     };
 
-    crossAttrs = lib.optionalAttrs (stdenv.buildPlatform != stdenv.targetPlatform) {
-      CROSS = "${stdenv.targetPlatform.config}-";
-      nativeBuildInputs = baseDrv.nativeBuildInputs ++ [pkgs.stdenv.cc];
+    crossAttrs = pkgs.lib.optionalAttrs (thispkgs.stdenv.buildPlatform != thispkgs.stdenv.targetPlatform) {
+      CROSS = "${thispkgs.stdenv.targetPlatform.config}-";
+      depsBuildBuild = (baseDrv.depsBuildBuild or []) ++ [pkgs.stdenv.cc];
     };
 
-  in stdenv.mkDerivation (baseDrv // crossAttrs)) {};
+  in thispkgs.stdenv.mkDerivation (baseDrv // crossAttrs);
 
   aarch64 = mkDrv {
     platform = "aarch64";
@@ -99,7 +88,7 @@ let
       overlays = [
         (self: super: with super; {
           cdrkit = cdrkit.overrideAttrs (old: {
-            nativeBuildInputs = (old.nativeBuildInputs or []) ++ ([
+            depsBuildHost = (old.depsBuildHost or []) ++ ([
               cmake
               perl
             ]);
