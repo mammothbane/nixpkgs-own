@@ -154,12 +154,16 @@ let
     thispkgs = pkgs;
   };
 
-in pkgs.symlinkJoin {
-  name = "ipxe-${ipxe.rev}";
+in {
+  inherit aarch64 x86-bios x86-efi;
 
-  paths = [
-    aarch64
-    x86-bios
-    x86-efi
-  ];
+  all = pkgs.symlinkJoin {
+    name = "ipxe-${ipxe.rev}";
+
+    paths = [
+      aarch64
+      x86-bios
+      x86-efi
+    ];
+  };
 }
