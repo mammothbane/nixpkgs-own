@@ -16,7 +16,18 @@ let
     targets,
     thispkgs,
     extraOptions ? [],
-  }: with thispkgs; stdenv.mkDerivation {
+  }: thispkgs.callPackage ({
+    lib,
+    stdenv,
+    cdrkit,
+    mtools,
+    dosfstools,
+    perl,
+    openssl,
+    gnu-efi,
+    lzma,
+    gcc,
+  }: stdenv.mkDerivation ({
     pname = "ipxe-${platform}";
     version = ipxe.rev;
 
@@ -28,6 +39,7 @@ let
       dosfstools
       perl
       openssl
+      pkgs.stdenv.cc
     ];
 
     buildInputs = [
@@ -46,7 +58,6 @@ let
     ];
     buildFlags = targets;
     hardeningDisable = [ "pic" "stackprotector" ];
-    enableParallelBuilding = true;
 
     inherit extraOptions;
 
@@ -74,7 +85,9 @@ let
       mkdir -p $out/share/ipxe/${platform}
     '' +
     lib.concatStringsSep "\n" (builtins.map (target: "cp ${target} $out/share/ipxe/${platform}") targets);
-  };
+  } // lib.optionalAttrs (stdenv.buildPlatform != stdenv.targetPlatform) {
+    CROSS = "${stdenv.targetPlatform.config}-";
+  })) {};
 
   aarch64 = mkDrv {
     platform = "aarch64";
@@ -146,7 +159,7 @@ in pkgs.symlinkJoin {
 
   paths = [
     aarch64
-    # x86-bios
-    # x86-efi
+    x86-bios
+    x86-efi
   ];
 }
