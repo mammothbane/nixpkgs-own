@@ -14,7 +14,7 @@
   outputs = { self, nixpkgs, flake-utils, nix-bisect }: (flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = import nixpkgs { inherit system; };
-      pkg = pkgs.callPackage nix-bisect {};
+      pkg = pkgs.python3Packages.toPythonApplication (pkgs.callPackage nix-bisect {});
 
     in {
       defaultPackage = pkg;
