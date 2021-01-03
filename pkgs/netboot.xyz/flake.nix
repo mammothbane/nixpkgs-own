@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/release-20.09";
     flake-utils.url = "github:numtide/flake-utils";
 
     netboot_xyz = {
@@ -36,27 +36,40 @@
     ...
   } @ inputs: (flake-utils.lib.eachDefaultSystem (system:
     let
-      crossPkgs = crossSystem: import nixpkgs {
-        inherit system crossSystem;
-      };
-
       pkgs = import nixpkgs {
         inherit system;
 
         overlays = [
-          (self: super: { inherit crossPkgs; })
+          (self: super: {
+            reimport = (args: import nixpkgs ({
+              inherit system;
+            } // args));
+          })
         ];
       };
 
-      ipxe = import ./ipxe.nix {
+      ipxe = import ./ipxe {
         inherit pkgs;
         inherit (inputs) ipxe;
+
+        opts = {
+          site = "nathanperry.dev";
+          domain = "boot.nathanperry.dev";
+          version = "0.1.0";
+        };
+      };
+
+      netboot = import ./package.nix {
+        inherit (inputs) ipxe;
+        inherit pkgs netboot_xyz pciids pipxe;
       };
 
     in {
-      defaultPackage = import ./package.nix {
-        inherit pkgs netboot_xyz pciids inputs.ipxe pipxe;
+      packages = {
+        inherit ipxe netboot;
       };
+
+      defaultPackage = netboot;
     })
   );
 }
