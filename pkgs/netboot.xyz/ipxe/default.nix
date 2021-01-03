@@ -6,11 +6,6 @@
 }:
 
 let
-  cacert = builtins.fetchurl {
-    url = https://ca.ipxe.org/ca.crt;
-    sha256 = "15kwz3liwbdpi8s3v3axaswmp1b3wm3zqps50gmrsiyj4v34fx8d";
-  };
-
   mkDrv = {
     platform,
     targets,
