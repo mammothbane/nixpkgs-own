@@ -11,10 +11,6 @@ let
     sha256 = "15kwz3liwbdpi8s3v3axaswmp1b3wm3zqps50gmrsiyj4v34fx8d";
   };
 
-  buildBuildDeps = p: with p; {
-    inherit cdrkit mtools dosfstools perl;
-  };
-
   mkDrv = {
     platform,
     targets,
@@ -35,13 +31,20 @@ let
 
     src = ipxe;
 
-    depsBuildBuild = builtins.attrValues (buildBuildDeps thispkgs);
+    depsHostHost = [
+      cdrkit
+      mtools
+      dosfstools
+      perl
+    ];
 
-    buildInputs = [
+    depsHostTarget = [
       openssl
       gnu-efi
       lzma
     ];
+
+    doCheck = stdenv.hostPlatform == stdenv.buildPlatform;
 
     NIX_CFLAGS_COMPILE = "-Wno-error";
     makeFlags = [
@@ -75,40 +78,13 @@ let
     '';
 
     preBuild = "cd src";
-  });
-
+  }) {};
 
   aarch64 = mkDrv {
     platform = "aarch64";
     targets = [ "bin-arm64-efi/snp.efi" ];
     thispkgs = pkgs.reimport {
       crossSystem = "aarch64-linux";
-
-      overlays = [
-        (self: super: buildBuildDeps pkgs)
-      ];
-
-      # overlays = [
-        # (self: super: {
-          # cdrkit = super.cdrkit.overrideAttrs (old: {
-            # nativeBuildInputs =
-              # (old.nativeBuildInputs or []) ++
-              # (with super; [ cmake breakpointHook ]);
-
-            # buildInputs =
-              # (old.buildInputs or []) ++
-              # (with super; [
-                # file
-                # libcap
-                # zlib
-                # bzip2
-                # perl
-              # ]);
-
-            # enableParallelBuild = true;
-          # });
-        # })
-      # ];
     };
   };
 
