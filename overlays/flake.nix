@@ -15,7 +15,7 @@
       overlays = {
         gnupg = (self: super: {
           gnupg = super.gnupg.overrideAttrs (oldattrs: {
-            version = if oldattrs.version == "2.2.24" then "2.2.25" else oldattrs.version;
+            version = if oldattrs.version == "2.2.24" then "2.2.23" else oldattrs.version;
             patches = oldattrs.patches ++ [ ./patches/scdaemon-shared-access.patch ];
           });
         });
